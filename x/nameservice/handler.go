@@ -14,6 +14,8 @@ func NewHandler(keeper Keeper) sdk.Handler {
 			return handleMsgSetName(ctx, keeper, msg)
 		case types.MsgBuyName:
 			return handleMsgBuyName(ctx, keeper, msg)
+		case types.MsgDeleteName:
+			return handleMsgDeleteName(ctx, keeper, msg)
 		default:
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, fmt.Sprintf("Unrecognized nameservice Msg type: %v", msg.Type()))
 		}
@@ -46,5 +48,18 @@ func handleMsgBuyName(ctx sdk.Context, keeper Keeper, msg types.MsgBuyName) (*sd
 	}
 	keeper.SetOwner(ctx, msg.Name, msg.Buyer)
 	keeper.SetPrice(ctx, msg.Name, msg.Bid)
+	return &sdk.Result{}, nil
+}
+
+// Handle a message to delete name
+func handleMsgDeleteName(ctx sdk.Context, keeper Keeper, msg types.MsgDeleteName) (*sdk.Result, error) {
+	if !keeper.IsNamePresent(ctx, msg.Name) {
+		return nil, sdkerrors.Wrap(types.ErrNameDoesNotExist, msg.Name)
+	}
+	if !msg.Owner.Equals(keeper.GetOwner(ctx, msg.Name)) {
+		return nil, sdkerrors.Wrap(sdkerrors.ErrUnauthorized, "Incorrect Owner")
+	}
+
+	keeper.DeleteWhois(ctx, msg.Name)
 	return &sdk.Result{}, nil
 }
