@@ -14,7 +14,7 @@ type MsgSetName struct {
 
 func NewMsgSetName(name, value string, owner sdk.AccAddress) MsgSetName {
 	return MsgSetName{
-		Name: name,
+		Name:  name,
 		Value: value,
 		Owner: owner,
 	}

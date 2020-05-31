@@ -2,6 +2,7 @@ package nameservice
 
 import (
 	"fmt"
+
 	"github.com/alyakimenko/nameservice/x/nameservice/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"

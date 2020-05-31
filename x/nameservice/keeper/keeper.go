@@ -4,21 +4,21 @@ import (
 	"github.com/alyakimenko/nameservice/x/nameservice/types"
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/bank"
 )
 
 // Keeper of the nameservice store
 type Keeper struct {
 	CoinKeeper types.BankKeeper
-	storeKey sdk.StoreKey
-	cdc *codec.Codec
+	storeKey   sdk.StoreKey
+	cdc        *codec.Codec
 }
 
-func NewKeeper(coinKeeper bank.Keeper, storeKey sdk.StoreKey, cdc *codec.Codec) Keeper {
+// NewKeeper creates new instances of the nameservice Keeper
+func NewKeeper(cdc *codec.Codec, storeKey sdk.StoreKey, coinKeeper types.BankKeeper) Keeper {
 	return Keeper{
+		cdc:        cdc,
+		storeKey:   storeKey,
 		CoinKeeper: coinKeeper,
-		storeKey: storeKey,
-		cdc: cdc,
 	}
 }
 

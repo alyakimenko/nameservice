@@ -53,4 +53,3 @@ func ExportGenesis(ctx sdk.Context, k Keeper) GenesisState {
 	}
 	return GenesisState{WhoisRecords: records}
 }
-
